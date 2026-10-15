@@ -18,7 +18,7 @@ class RihlaApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0E7C86)),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
