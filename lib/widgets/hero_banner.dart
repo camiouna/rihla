@@ -30,48 +30,61 @@ class HeroBanner extends StatelessWidget {
               ),
             ),
             Positioned(
+              top: 16,
+              right: 16,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [],
+                ),
+              ),
+            ),
+            Positioned(
               left: 20,
-              right: 20,
+              right: 130,
               bottom: 20,
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'DESTINATION DU MOIS',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          destination.nom,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          destination.region,
-                          style:TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
+                  const Text(
+                    'DESTINATION DU MOIS',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
                     ),
                   ),
-                  FilledButton(
-                    onPressed: () {},
-                    child: Text('Découvrir'),
+                  const SizedBox(height: 4),
+                  Text(
+                    destination.nom,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    destination.region,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
+              ),
+            ),
+            Positioned(
+              right: 16,
+              bottom: 20,
+              child: FilledButton(
+                onPressed: () {},
+                child: const Text('Découvrir'),
               ),
             ),
           ],
@@ -80,4 +93,3 @@ class HeroBanner extends StatelessWidget {
     );
   }
 }
-//Q1: 

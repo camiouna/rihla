@@ -51,6 +51,3 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
-//Q1: l'avatar sera a coté de "ou parter vous ajourd'hui", expanded permet que la column prend le reste de la largeur donc le texte occupe tout l'espace libre
-//Q2: car statelessWidget ne doit pas avoir des valeurs qui change aprés creation
-//Q3: cs.primary suit la couleur de theme actuel, colors.teal reste fixe donc si on change le seedcolor, cs.primary change mais colors.teal reste le meme.

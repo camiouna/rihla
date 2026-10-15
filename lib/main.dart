@@ -22,3 +22,9 @@ class RihlaApp extends StatelessWidget {
     );
   }
 }
+//Q1: l'avatar sera a coté de "ou parter vous ajourd'hui", expanded permet que la column prend le reste de la largeur donc le texte occupe tout l'espace libre
+//Q2: car statelessWidget ne doit pas avoir des valeurs qui change aprés creation
+//Q3: cs.primary suit la couleur de theme actuel, colors.teal reste fixe donc si on change le seedcolor, cs.primary change mais colors.teal reste le meme.
+//Q4: le decoratedBox est derriere l'image parceque les premiers elements sont dessinées en bas et les derniers en haut
+//Q5: le contenu depasse les bords de clipRRect
+//Q6; right 130 reserve l'espace pour le bouton decouvrir
