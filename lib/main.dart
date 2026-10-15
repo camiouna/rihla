@@ -28,3 +28,5 @@ class RihlaApp extends StatelessWidget {
 //Q4: le decoratedBox est derriere l'image parceque les premiers elements sont dessinées en bas et les derniers en haut
 //Q5: le contenu depasse les bords de clipRRect
 //Q6; right 130 reserve l'espace pour le bouton decouvrir
+// Q7 : Expanded donne une largeur à la Row pour que Spacer pousse le prix à droite.
+// Q8 : une seul entrée Destination dans destinations.dart suffit car la boucle for dans home_screen.dart
