@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/destinations.dart';
+import '../widgets/hero_banner.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
 
@@ -12,10 +14,11 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
-          children: const [
+          children: [
             HomeHeader(prenom: 'Sami'),
-            SizedBox(height: 20),
             SearchBox(),
+            SizedBox(height: 10),
+            HeroBanner(destination: destinations.first),
           ],
         ),
       ),
