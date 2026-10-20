@@ -17,9 +17,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _categorie = 'Tout';
+  int _onglet = 0;
 
-  // TODO 1 : si _categorie vaut 'Tout', renvoyer destinations ;
-  // sinon, seulement celles dont categorie == _categorie.
   List<Destination> get _filtrees {
     if (_categorie == 'Tout') {
       return destinations;
@@ -29,12 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .where((destination) => destination.categorie == _categorie)
         .toList();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
+  Widget _construireAccueil(){
+      return ListView(
           padding: const EdgeInsets.all(20),
           children: [
             HomeHeader(prenom: 'Sami'),
@@ -68,7 +63,24 @@ class _HomeScreenState extends State<HomeScreen> {
             SectionTitle(title: 'Populaires', action: 'Voir tout'),
             for (var d in _filtrees) DestinationCard(key: ValueKey(d.nom),destination: d),
           ],
-        ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(destinations: [
+        NavigationDestination(icon: Icon(Icons.explore),label:"explore"),
+        NavigationDestination(icon: Icon(Icons.favorite),label:"favorited"),
+        NavigationDestination(icon: Icon(Icons.person),label:"profile"),
+      ],onDestinationSelected: (selectedIndex) {
+        setState(() {
+          _onglet = selectedIndex;
+        });
+      },
+      ),
+      body: SafeArea(
+        child: _onglet==0? _construireAccueil():Center(child:Text("Bientot disponible")),
       ),
     );
   }
