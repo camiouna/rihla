@@ -11,7 +11,7 @@ class RihlaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+     return MaterialApp(
       title: 'Rihla',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -30,3 +30,6 @@ class RihlaApp extends StatelessWidget {
 //Q6; right 130 reserve l'espace pour le bouton decouvrir
 // Q7 : Expanded donne une largeur à la Row pour que Spacer pousse le prix à droite.
 // Q8 : une seul entrée Destination dans destinations.dart suffit car la boucle for dans home_screen.dart
+//Q9 : sans setState, la mise a jour quand on clique sur une categorie ne sera pas effectué bien que categorie change en memoire
+//Q10 : _filtrees est recalculé a chaque build pour ne pas stocker une liste pour chaque categorie 
+//Q11 : HeroBanner peut rester stateless car il n'effectue pas des setState(), il se reconstruit avec les données changée, pas plus.
