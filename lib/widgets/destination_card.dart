@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp3/widgets/favorite_button.dart';
 
 import '../models/destination.dart';
 
@@ -59,6 +60,7 @@ class DestinationCard extends StatelessWidget {
                       Text(destination.note.toString()),
                       Spacer(),
                       Text('${destination.prix} DT'),
+                      FavoriteButton(key: ValueKey(destination.nom)),
                     ],
                   ),
                 ],
