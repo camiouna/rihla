@@ -15,13 +15,37 @@ class ReservationScreen extends StatefulWidget{
 
 }
 class _ReservationScreenState extends State<ReservationScreen>{
+  AutovalidateMode _autoValidation = AutovalidateMode.disabled;
   final _formKey= GlobalKey<FormState>();
   final _nomCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _telCtrl = TextEditingController();
+  final _dateCtrl = TextEditingController();
+  DateTime? _date;
+  String _formule = 'Essentiel';
+  bool _conditions = false;
+  int get _prixParPersonne => _formule =='Confort' ? (widget.destination.prix*1.3).round():widget.destination.prix;
+  int get _total =>_prixParPersonne * widget.voyageurs;
+  
+  Future<void> _choisirDate() async {
+    final demain = DateTime.now().add(const Duration(days:1));
+    final choisie = await showDatePicker(context: context,
+      initialDate: _date ?? demain,
+      firstDate: demain,
+      lastDate: DateTime.now().add(const Duration(days:365)),
+      helpText: 'Date de depart',
+    );
+    if (choisie ==null) return;
+    setState(() {
+      _date=choisie;
+      _dateCtrl.text='${choisie.day.toString().padLeft(2, '0')}/${choisie.month.toString().padLeft(2, '0')}/${choisie.year}';
+    });
+
+  }
+
   @override
   void dispose(){
-    
+      _dateCtrl.dispose();
       _nomCtrl.dispose();
       _telCtrl.dispose();
       _emailCtrl.dispose();
@@ -54,6 +78,9 @@ class _ReservationScreenState extends State<ReservationScreen>{
     if (v.length!=8) return 'chiffres attendus';
   }
   void _valider(){
+    setState(() {
+      _autoValidation=AutovalidateMode.onUserInteraction;
+    });
     if (!_formKey.currentState!.validate()) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Formulaire valide')));
   }
@@ -61,8 +88,10 @@ class _ReservationScreenState extends State<ReservationScreen>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar:AppBar(title:const Text('Réserver')),
-      body : Form(
+      body :
+      Form(
         key:_formKey,
+        autovalidateMode: _autoValidation,
         child:SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -101,13 +130,49 @@ class _ReservationScreenState extends State<ReservationScreen>{
                 textInputAction:TextInputAction.next,
                 validator:_validerTel,
                 ),
+                const SizedBox(height:16),
+                TextFormField(
+                  controller: _dateCtrl,
+                  readOnly: true,
+                  onTap:_choisirDate,
+                  decoration: _deco('Date de depart', Icons.calendar_month_outlined),
+                  validator: (_)=>_date==null?'Choisissez une date':null,
+                ),
+                SegmentedButton<String>(
+                segments: const[
+                ButtonSegment(value: 'Essentiel',label:Text('Essentiel'),icon:Icon(Icons.backpack_outlined)),
+      ButtonSegment(value: 'Confort',label:Text('Confort +30%'),icon:Icon(Icons.hotel_outlined)),
+    ],
+    selected:{_formule},
+    onSelectionChanged:(choix){
+      setState(() {
+        _formule=choix.first;
+      });
+    }
+  ),
+  CheckboxListTile(value: _conditions, onChanged:(v)=> setState(()=>_conditions=v??false),
+    controlAffinity: ListTileControlAffinity.leading,
+    contentPadding: EdgeInsets.zero,
+    title: const Text("J'accepte les conditions d'annulation"),
+    subtitle: const Text("Annulation gratuite jusqu'a 48h avant"),
+  ),
             ],
           ),
+          
         ),
+        
       ),
       bottomNavigationBar: Padding(padding: const EdgeInsets.all(16)
-        ,child: FilledButton.icon(onPressed: _valider, label: Text('Confirmer')),
+        ,child:Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+           children:[
+            Text('${_prixParPersonne*widget.voyageurs} DT'),
+            FilledButton.icon(onPressed: _conditions ? _valider : null, label: Text('Confirmer')),
+           ]
+           )
       ),
+      
     );
   }
 }

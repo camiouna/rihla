@@ -43,3 +43,6 @@ class RihlaApp extends StatelessWidget {
 //Q1 : elle demande au form d'executer le validator de chaque champ et d'afficher les erreurs si ils existent puis donne true si tous les tests sont validées sinon false
 //Q2 : ils agissent pendant la saisie pour filtrer/limiter les caracteres saisies
 //Q3 : dispose sert a nettoyer les controleurs quand on quitte l'ecran pour ne pas garder en memoire des objets dont on n'a plus besoin.
+ //palier 4:
+ //Q1 : the champ date est en readonly pour empecher la saisie au clavier, sans readonly on peut taper une date sans le datetimepicker
+ //Q2 : _total est une valeur calculé a partir d'une formule,le getter recalcule sa valeur chaque fois qu'on le lit
