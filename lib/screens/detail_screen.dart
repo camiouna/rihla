@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp3/models/reservation.dart';
 import 'package:tp3/screens/reservation_screen.dart';
 
 import '../models/destination.dart';
@@ -10,13 +11,29 @@ class DetailScreen extends StatefulWidget {
   final Destination destination;
 
   const DetailScreen({super.key, required this.destination});
-
+  
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
   int _voyageurs = 1;
+  Future<void> _reserver() async{
+    final Reservation? reservation=await Navigator.push<Reservation>(
+      context,MaterialPageRoute(builder: (context)=>ReservationScreen(destination: widget.destination, voyageurs: _voyageurs,),)
+    );
+    if(reservation==null) return;
+    if(!mounted) return;
+    await showDialog<void>(context: context,builder: (context)=>AlertDialog(
+      icon: const Icon(Icons.check_circle,color:Colors.green,size:48),
+      title:const Text('Reservation confirmée'),
+      content: Text("Nom : ${reservation.nom} \n Destination : ${reservation.destination.nom}\n Voyageurs : ${_voyageurs} \n Formule : ${reservation.formule} \n Total : ${reservation.total} \n Email : ${reservation.email}")
+      ,
+      actions: [
+        FilledButton(onPressed: ()=>Navigator.pop(context), child: const Text('Parfait'))
+      ],
+    ) );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +216,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(56),
                   ),
-                  child: const Text('Réserver'),
+                  child: FilledButton(onPressed: ()=>_reserver(), child: const Text('Reserver'))
                 ),
               ),
             ],

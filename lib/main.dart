@@ -46,3 +46,7 @@ class RihlaApp extends StatelessWidget {
  //palier 4:
  //Q1 : the champ date est en readonly pour empecher la saisie au clavier, sans readonly on peut taper une date sans le datetimepicker
  //Q2 : _total est une valeur calculé a partir d'une formule,le getter recalcule sa valeur chaque fois qu'on le lit
+ //palier 5:
+ //Q1: aucune reservation va etre envoyée (reservation va etre envoyée null a detail screen) car lobjet n'est oas crée qu'apres validation du formulaire
+ //Q2: vscode signale que la buildContext ne doit pas etre utilisé apres une operation asynchrone, mounted permet de verifier que lécran existe encore avant d'utiliser son contexte pour afficher la boite de dialogue
+ //Q3: une boite de dialogue est elle aussi une route affichée au dessus de l'ecran courant
