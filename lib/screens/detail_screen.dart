@@ -50,7 +50,7 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(d.image, fit: BoxFit.cover),
+                Hero(tag:'image-${widget.destination.nom}',child: Image.asset(d.image, fit: BoxFit.cover)),
                 Positioned(
                   top: 48,
                   left: 16,
