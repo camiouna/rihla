@@ -39,3 +39,7 @@ class RihlaApp extends StatelessWidget {
 //Q1 : le filtre est conservé,l'ecran de detail est au dessus de la page d'acceuil donc la page d'acceuil reste en memoire mais dessous la page detail
 //Q2 : c'est le passage de données a un ecran via son constructeur
 //Q3 : sans clip behvaiour, on peut cliquer a l'espace arrondis donc clip behaviour coupe le contenu des coins pour que l'effet de touche est sous la forme de la carte
+//palier 3:
+//Q1 : elle demande au form d'executer le validator de chaque champ et d'afficher les erreurs si ils existent puis donne true si tous les tests sont validées sinon false
+//Q2 : ils agissent pendant la saisie pour filtrer/limiter les caracteres saisies
+//Q3 : dispose sert a nettoyer les controleurs quand on quitte l'ecran pour ne pas garder en memoire des objets dont on n'a plus besoin.

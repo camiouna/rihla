@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp3/screens/reservation_screen.dart';
 
 import '../models/destination.dart';
 import '../widgets/favorite_button.dart';
@@ -191,7 +192,10 @@ class _DetailScreenState extends State<DetailScreen> {
               const SizedBox(width: 20),
               Expanded(
                 child: FilledButton(
-                  onPressed: () {}, // TP4 palier 3 puis 5
+                  onPressed: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=>ReservationScreen(destination:d,voyageurs: _voyageurs,),));
+        
+                  }, // TP4 palier 3 puis 5
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(56),
                   ),
