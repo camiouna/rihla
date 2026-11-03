@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp3/widgets/favorite_button.dart';
-
+import '../screens/detail_screen.dart';
 import '../models/destination.dart';
 
 class DestinationCard extends StatelessWidget {
@@ -19,6 +19,12 @@ class DestinationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       margin: EdgeInsets.only(bottom: 12),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap:(){
+          Navigator.push(context,MaterialPageRoute(builder: (context)=>DetailScreen(destination:destination,),));
+        },
+      
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Row(
@@ -68,7 +74,7 @@ class DestinationCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),)
     );
   }
 }

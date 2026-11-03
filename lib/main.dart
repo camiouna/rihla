@@ -33,3 +33,9 @@ class RihlaApp extends StatelessWidget {
 //Q9 : sans setState, la mise a jour quand on clique sur une categorie ne sera pas effectué bien que categorie change en memoire
 //Q10 : _filtrees est recalculé a chaque build pour ne pas stocker une liste pour chaque categorie 
 //Q11 : HeroBanner peut rester stateless car il n'effectue pas des setState(), il se reconstruit avec les données changée, pas plus.
+
+
+//TP4
+//Q1 : le filtre est conservé,l'ecran de detail est au dessus de la page d'acceuil donc la page d'acceuil reste en memoire mais dessous la page detail
+//Q2 : c'est le passage de données a un ecran via son constructeur
+//Q3 : sans clip behvaiour, on peut cliquer a l'espace arrondis donc clip behaviour coupe le contenu des coins pour que l'effet de touche est sous la forme de la carte
