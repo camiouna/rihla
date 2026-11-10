@@ -55,4 +55,12 @@ class RihlaApp extends StatelessWidget {
  //Q1 : elle renvoie 404 qui est la famille des erreurs de client
  //Q2 : le serveur
  //Q3 :  car le get recupere de données seulement, il n'envoie rien
+ //palier 2:
+ //Q1: fromJson est un constructeur factory car il cree et renvoie un objet destination a partir des donées json
+ //Q2: on aura un erreur car prix est declarée "as int", vu que "420" est une chaine
+ //Q3: getDestination fair une requete http qui prend du temps c'est pour ca qu'on a utilisé await pour attendre la resultat
+ //palier 3:
+ //Q1: late permet que futurdestination peut etre crée sans prendre une valeur immediatement
+ //Q2: sans le test snapshop.haserror on n'aurons pas un message d'erreur affiché mais on aurons un erreur d'execution a snapshot.data!
+ //Q3: non la changement de categorie seulement met a joir _categorie avec setstate puis filtrer les destinations avec _filtrer, la requete se relance seulement dans initState et a nouveau lors d'un refresh 
  

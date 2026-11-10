@@ -22,9 +22,19 @@ class Destination {
     required this.duree,
     required this.description,
   });
-}
+
 factory Destination.fromJson(Map<String,dynamic> json){
   return Destination(
-    id:json["id"].toString()
-  )
+    id:json["id"].toString(),
+    nom:json["nom"] as String,
+    region:json["region"] as String,
+    categorie:json["categorie"] as String,
+    image:json["image"] as String,
+    duree:json["duree"] as String,
+    description:json["description"] as String,
+    note: (json['note'] as num).toDouble(),
+    prix: json["prix"] as int,
+
+  );
+}
 }

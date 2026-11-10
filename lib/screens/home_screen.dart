@@ -7,10 +7,40 @@ import '../widgets/hero_banner.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
 import '../widgets/section_title.dart';
+import '../services/api_service.dart';
+class ErreurReseau extends StatelessWidget{
+  final String message;
+  final VoidCallback onRessayer;
+  const ErreurReseau({super.key,required this.message,required this.onRessayer});
+  @override 
+  Widget build(BuildContext context){
+    return Center(
+      child: Column(
+        children: [
+          Icon(
+            Icons.cloud_off,
+            color: Theme.of(context).colorScheme.error,
+            size: 48,
+          ),
+          const SizedBox(height: 12),
+          Text(message, textAlign: TextAlign.center),
+          const SizedBox(height: 8),
+          const Text('Vérifiez que json-server est lancé.'),
+          const SizedBox(height: 12),
+          FilledButton.tonalIcon(
+            onPressed: onRessayer,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Réessayer'),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
+  
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -19,17 +49,59 @@ class _HomeScreenState extends State<HomeScreen> {
   String _categorie = 'Tout';
   int _onglet = 0;
 
-  List<Destination> get _filtrees {
-    if (_categorie == 'Tout') {
-      return destinations;
-    }
+  late Future<List<Destination>> _futurDestinations;
 
-    return destinations
-        .where((destination) => destination.categorie == _categorie)
-        .toList();
+  @override
+  void initState(){
+    super.initState();
+    _futurDestinations=ApiService.getDestinations();
   }
-  Widget _construireAccueil(){
+  List<Destination> _filtrer(List<Destination> toutes)=>_categorie=="Tout" ? toutes : toutes.where((d)=>d.categorie==_categorie).toList();
+  Future<void> _recharger() async {
+    final futur = ApiService.getDestinations();
+    setState(() {
+      _futurDestinations = futur;
+    });
+    try {
+      await futur;
+    } catch(_){
+
+    }
+  }
+
+  Widget _construireExplorer(){
+    return FutureBuilder<List<Destination>>(
+      future: _futurDestinations, 
+      builder: (context,snapshot){
+      if (snapshot.connectionState==ConnectionState.waiting){
+        return const Center(child: CircularProgressIndicator());
+      }
+      if(snapshot.hasError){
+        return ErreurReseau(
+          message: 'Erreur de chargement des destinations.',
+          onRessayer: _recharger,
+        );
+      }
+      final destinations = snapshot.data!;
+      return RefreshIndicator(
+        onRefresh: _recharger,
+        child: _construireAccueil(destinations)
+      );
+    });
+  }
+  Widget _construireAccueil(List<Destination> destinations){
+    final filtrees=_filtrer(destinations);
+    if (destinations.isEmpty) {
       return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: const [
+          SizedBox(height: 160),
+          Center(child: Text('Aucune destination disponible.')),
+        ],
+      );
+    }
+      return ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(20),
           children: [
             HomeHeader(prenom: 'Sami'),
@@ -41,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  for (final c in categories)
+                  for (final c in <String>{'Tout', ...destinations.map((d) => d.categorie)})
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: ChoiceChip(
@@ -61,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 10),
             SectionTitle(title: 'Populaires', action: 'Voir tout'),
-            for (var d in _filtrees) DestinationCard(key: ValueKey(d.nom),destination: d),
+            for (final d in filtrees) DestinationCard(key: ValueKey(d.id),destination: d),
           ],
         );
   }
@@ -80,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       ),
       body: SafeArea(
-        child: _onglet==0? _construireAccueil():Center(child:Text("Bientot disponible")),
+        child: _onglet==0? _construireExplorer():Text("bientot disponible"),
       ),
     );
   }
