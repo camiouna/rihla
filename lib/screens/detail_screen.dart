@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tp3/models/reservation.dart';
 import 'package:tp3/screens/reservation_screen.dart';
-
+import 'package:tp3/services/api_service.dart';
+import '../services/api_service.dart';
 import '../models/destination.dart';
 import '../widgets/favorite_button.dart';
 
@@ -24,10 +25,20 @@ class _DetailScreenState extends State<DetailScreen> {
     );
     if(reservation==null) return;
     if(!mounted) return;
+    final String id;
+    try{
+      id= await ApiService.careerReservation(reservation);
+    }catch(e){
+      if(!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("json-server n'est pas lancée"),backgroundColor: Theme.of(context).colorScheme.error));
+      return;
+    }
+    if (!mounted) return;
+
     await showDialog<void>(context: context,builder: (context)=>AlertDialog(
       icon: const Icon(Icons.check_circle,color:Colors.green,size:48),
       title:const Text('Reservation confirmée'),
-      content: Text("Nom : ${reservation.nom} \n Destination : ${reservation.destination.nom}\n Voyageurs : ${_voyageurs} \n Formule : ${reservation.formule} \n Total : ${reservation.total} \n Email : ${reservation.email}")
+      content: Text("num reservation: $id \n Nom : ${reservation.nom} \n Destination : ${reservation.destination.nom}\n Voyageurs : ${_voyageurs} \n Formule : ${reservation.formule} \n Total : ${reservation.total} \n Email : ${reservation.email}")
       ,
       actions: [
         FilledButton(onPressed: ()=>Navigator.pop(context), child: const Text('Parfait'))

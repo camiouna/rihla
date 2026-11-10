@@ -63,4 +63,7 @@ class RihlaApp extends StatelessWidget {
  //Q1: late permet que futurdestination peut etre crée sans prendre une valeur immediatement
  //Q2: sans le test snapshop.haserror on n'aurons pas un message d'erreur affiché mais on aurons un erreur d'execution a snapshot.data!
  //Q3: non la changement de categorie seulement met a joir _categorie avec setstate puis filtrer les destinations avec _filtrer, la requete se relance seulement dans initState et a nouveau lors d'un refresh 
- 
+ //palier 4:
+ //Q1 : on envoie destinationId pour enregistrer seulement la id de la destination pour eviter la duplication de tout son objet dans chaque reservation et permet de retrouver la destination à partir de son id
+ //Q2 : sans Content-Type: application/json, le serveur peut ne pas reconnaître ni décoder le corps comme du JSON, les champs de la reservation risquent alors de ne pas etre enregistré (ou rejection de requete).
+ //Q3 : creerReservation est asynchrone et l'ecran peut être fermé pendant l'attente. Après l'await, mounted verifie que l'ecran existe encore avant d'utiliser son context.
